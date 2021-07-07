@@ -1,52 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CSharp.Domain
 {
     public class Invoice
     {
-        private const string Format = " Invoice Date: {0}\n Invoice Reference Number: {1}\n Invoice Due Date: {2}\n Total Invoice Amount: R{3}";                                     
-        public Invoice()
-        { 
-        }
-        public Invoice(int invoiceId)
+        private int month;
+        public Invoice(int invoiceId, List<InvoiceItem> invoiceItems, int month)
         {
             InvoiceId = invoiceId;
-            InvoiceItems = new List<InvoiceItem>();
+            this.month = month;
+            InvoiceItems = invoiceItems;
+            this.InvoiceDate = this.CalculateInvoiceDate(month);
         }
 
         public int InvoiceId { get; set; }
         public DateTimeOffset InvoiceDate { get; set; }
         public string InvoiceReferenceNumber { get; set; }
         public DateTimeOffset InvoiceDueDate { get; set; }
-        public List<InvoiceItem> InvoiceItems { get; set; }
-        public decimal TotalInvoiceAmount { get; set; }
+        public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+        public decimal TotalInvoiceAmount
+        {
+            get 
+            {
+                return this.InvoiceItems.Sum(i => i.TotalInvoiceItemAmount);
+            } 
+        }
 
         /// <summary>
-        /// Calculate the invoice date dive the month
+        /// Calculate the invoice date
         /// </summary>
-        /// <param name="Month"></param>
-        public DateTime CalculateInvoiceDate(int Month)
+        /// <param name="month"></param>
+        public DateTime CalculateInvoiceDate(int month)
         {
             var ThisYear = DateTimeOffset.UtcNow.Year;
-            var DaysInMonth = DateTime.DaysInMonth(ThisYear, Month);
-            var InvoiceDate = new DateTime(ThisYear, Month, DaysInMonth);
+            var DaysInMonth = DateTime.DaysInMonth(ThisYear, month);
+            var InvoiceDate = new DateTime(ThisYear, month, DaysInMonth);
             return InvoiceDate;
-            //Console.WriteLine("Invoice Date: " + InvoiceDate);
         }
 
         /// <summary>
         /// Calculate the invoice due date given the month
         /// </summary>
-        /// <param name="nextMont"></param>
-        public DateTime CalculateInvoiceDueDate(int Month) 
+        /// <param name="month"></param>
+        public DateTime CalculateInvoiceDueDate(int month) 
         {
-            var ThisYear = DateTimeOffset.UtcNow.Year;
-            var DaysInNextMont = DateTime.DaysInMonth(ThisYear, Month);
-            var InvoiceDueDate = new DateTime(ThisYear, Month, DaysInNextMont).AddDays(1).AddSeconds(-1);
-            return InvoiceDueDate;
-            //Console.WriteLine("Invoice Due Date: " + InvoiceDueDate);
-
+            var thisYear = DateTimeOffset.UtcNow.Year;
+            var daysInNextMont = DateTime.DaysInMonth(thisYear, month);
+            var invoiceDueDate = new DateTime(thisYear, month, daysInNextMont).AddDays(1).AddSeconds(-1);
+            return invoiceDueDate;
         }
         
         /// <summary>
@@ -55,7 +58,7 @@ namespace CSharp.Domain
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format(Format, InvoiceDate, InvoiceReferenceNumber, InvoiceDueDate, TotalInvoiceAmount);
+            return string.Format(" Invoice Date: {0}\n Invoice Reference Number: {1}\n Invoice Due Date: {2}\n Total Invoice Amount: R{3}", InvoiceDate, InvoiceReferenceNumber, InvoiceDueDate, TotalInvoiceAmount);
         }
         /// <summary>
         /// Validation
@@ -66,7 +69,7 @@ namespace CSharp.Domain
             var isValid = true;
 
             if (InvoiceReferenceNumber == null) isValid = false;
-            if (TotalInvoiceAmount <= 0) isValid = false;
+            if (InvoiceReferenceNumber == "") isValid = false;
 
             return isValid;
         }

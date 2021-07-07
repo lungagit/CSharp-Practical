@@ -13,7 +13,9 @@ namespace CSharp.App
             var Invoices = new InvoiceRepository();
             for (int i = 1; i <= 12; i++)
             {
-                Invoices.Retrieve(i);
+                var inv = Invoices.Retrieve(i, i);
+                Console.WriteLine(inv);
+                Console.WriteLine("=====================================================================================\n");
             }
 
             Console.WriteLine("\nApp is running....press any key to exit");

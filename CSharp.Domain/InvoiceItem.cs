@@ -6,12 +6,6 @@ namespace CSharp.Domain
 {
     public class InvoiceItem
     {
-        private const string Format = "\n Hours worked: {0}\n Rate per hour: {1}\n Description: {2}\n";
-
-        public InvoiceItem()
-        {
-        }
-
         public InvoiceItem(int invoiceItemId)
         {
             InvoiceItemId = invoiceItemId;           
@@ -21,13 +15,11 @@ namespace CSharp.Domain
         public decimal HoursWorked { get; set; }
         public decimal RatePerHour { get; set; }
         public string Description { get; set; }
-        public decimal CalculateTotalInvoiceAmount()
-        {
-            return HoursWorked * RatePerHour;
-        }
+        public decimal TotalInvoiceItemAmount => Math.Round(HoursWorked * RatePerHour, 2);
+
         public override string ToString()
         {
-            return string.Format(Format, HoursWorked, RatePerHour, Description);
+            return string.Format("\n Hours worked: {0}\n Rate per hour: {1}\n Description: {2}\n", HoursWorked, RatePerHour, Description);
         }
         /// <summary>
         /// Validate Invoice items
@@ -39,6 +31,7 @@ namespace CSharp.Domain
 
             if (HoursWorked <= 0) isValid = false;
             if (RatePerHour <= 0) isValid = false;
+            if (TotalInvoiceItemAmount <= 0) isValid = false;
 
             return isValid;
         }
