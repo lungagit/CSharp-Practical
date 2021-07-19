@@ -13,13 +13,14 @@ namespace CSharp.App
         static void Main(string[] args)
         {
 
-            //var invoices = new InvoiceRepository();
-            //for (int i = 1; i <= 12; i++)
-            //{
-            //    var inv = invoices.Retrieve(i);
-            //    Console.WriteLine(inv);
-            //    Console.WriteLine("=====================================================================================\n");
-            //}
+            var invoices = new InvoiceRepository();
+            for (int i = 1; i <= 12; i++)
+            {
+                var inv = invoices.Retrieve(i);
+                Console.WriteLine(inv);
+                Console.WriteLine("=====================================================================================\n");
+            }
+
             InsertMonthOneInvoice(1);
             InsertMonthTwoInvoice(2);
             InsertMonthThreeInvoice(3);
@@ -383,9 +384,9 @@ namespace CSharp.App
             var invoice = new Invoice(invoiceId, invoiceItemList);
             var invTwelve = new FullStack.Data.Entities.Invoice
             {
-                InvoiceDate = invoice.CalculateInvoiceDate(11),
+                InvoiceDate = invoice.CalculateInvoiceDate(12),
                 InvoiceReferenceNumber = "INV0012",
-                InvoiceDueDate = invoice.CalculateInvoiceDueDate(11),
+                InvoiceDueDate = invoice.CalculateInvoiceDueDate(12),
                 InvoiceItems = new List<FullStack.Data.Entities.InvoiceItem>
                 {
                     new FullStack.Data.Entities.InvoiceItem
