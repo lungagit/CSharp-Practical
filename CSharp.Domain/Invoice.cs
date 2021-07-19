@@ -6,16 +6,15 @@ namespace CSharp.Domain
 {
     public class Invoice
     {
-        private int month;
-        public Invoice(int invoiceId, List<InvoiceItem> invoiceItems, int month)
+        public Invoice(int invoiceId, List<InvoiceItem> invoiceItems)
         {
-            InvoiceId = invoiceId;
-            this.month = month;
+            Id = invoiceId;
             InvoiceItems = invoiceItems;
-            this.InvoiceDate = this.CalculateInvoiceDate(month);
+            this.InvoiceDate = this.CalculateInvoiceDate(invoiceId);
+            this.InvoiceDueDate = this.CalculateInvoiceDueDate(invoiceId);
         }
 
-        public int InvoiceId { get; set; }
+        public int Id { get; set; }
         public DateTimeOffset InvoiceDate { get; set; }
         public string InvoiceReferenceNumber { get; set; }
         public DateTimeOffset InvoiceDueDate { get; set; }
@@ -25,30 +24,34 @@ namespace CSharp.Domain
             get 
             {
                 return this.InvoiceItems.Sum(i => i.TotalInvoiceItemAmount);
-            } 
+            }
         }
 
         /// <summary>
         /// Calculate the invoice date
         /// </summary>
         /// <param name="month"></param>
-        public DateTime CalculateInvoiceDate(int month)
+        public DateTime CalculateInvoiceDate(int invoiceId)
         {
-            var ThisYear = DateTimeOffset.UtcNow.Year;
-            var DaysInMonth = DateTime.DaysInMonth(ThisYear, month);
-            var InvoiceDate = new DateTime(ThisYear, month, DaysInMonth);
-            return InvoiceDate;
+            var thisYear = DateTimeOffset.UtcNow.Year;
+            var thisMonth = DateTimeOffset.UtcNow.Month;
+            var daysInMonth = DateTime.DaysInMonth(thisYear, thisMonth);
+            var lastDayOfMonth = new DateTime(thisYear, thisMonth, daysInMonth);
+            var invoiceDate = lastDayOfMonth.AddMonths(invoiceId - 1).AddDays(-5);
+            return invoiceDate;
         }
 
         /// <summary>
         /// Calculate the invoice due date given the month
         /// </summary>
         /// <param name="month"></param>
-        public DateTime CalculateInvoiceDueDate(int month) 
+        public DateTime CalculateInvoiceDueDate(int invoiceId) 
         {
             var thisYear = DateTimeOffset.UtcNow.Year;
-            var daysInNextMont = DateTime.DaysInMonth(thisYear, month);
-            var invoiceDueDate = new DateTime(thisYear, month, daysInNextMont).AddDays(1).AddSeconds(-1);
+            var thisMonth = DateTimeOffset.UtcNow.Month;
+            var daysInMonth = DateTime.DaysInMonth(thisYear, thisMonth);
+            var lastDayOfMonth = new DateTime(thisYear,thisMonth, daysInMonth).AddDays(1).AddSeconds(-1);
+            var invoiceDueDate = lastDayOfMonth.AddMonths(invoiceId);
             return invoiceDueDate;
         }
         

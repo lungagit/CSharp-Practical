@@ -6,11 +6,11 @@ namespace CSharp.Domain
 {
     public class InvoiceItemRepository
     {
-        public IEnumerable<InvoiceItem> RetrieveInvoiceItems(int month)
+        public IEnumerable<InvoiceItem> RetrieveInvoiceItems(int invoiceId)
         {
             var invoiceItemList = new List<InvoiceItem>();
             
-            if (month == 1)
+            if (invoiceId == 1)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 
@@ -41,7 +41,7 @@ namespace CSharp.Domain
             }
             
 
-            if (month == 2)
+            if (invoiceId == 2)
             {
                 decimal ItemOneTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -60,7 +60,7 @@ namespace CSharp.Domain
                 return invoiceItemList;
             }
 
-            if (month == 3)
+            if (invoiceId == 3)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -90,7 +90,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 4)
+            if (invoiceId == 4)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -120,7 +120,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 5)
+            if (invoiceId == 5)
             {               
                 InvoiceItem invoiceItem = new InvoiceItem(1)
                 {
@@ -135,7 +135,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 6)
+            if (invoiceId == 6)
             {
                 decimal ItemOneTotal, ItemTwoTotal, ItemThreeTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -177,7 +177,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 7)
+            if (invoiceId == 7)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -207,7 +207,7 @@ namespace CSharp.Domain
  
             }
 
-            if (month == 8)
+            if (invoiceId == 8)
             {
                 InvoiceItem invoiceItem = new InvoiceItem(1)
                 {
@@ -222,7 +222,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 9)
+            if (invoiceId == 9)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -252,7 +252,7 @@ namespace CSharp.Domain
  
             }
 
-            if (month == 10)
+            if (invoiceId == 10)
             {
                 InvoiceItem invoiceItem = new InvoiceItem(1)
                 {
@@ -266,7 +266,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 11)
+            if (invoiceId == 11)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
@@ -296,7 +296,7 @@ namespace CSharp.Domain
 
             }
 
-            if (month == 12)
+            if (invoiceId == 12)
             {
                 decimal ItemOneTotal, ItemTwoTotal;
                 InvoiceItem invoiceItem = new InvoiceItem(1)
