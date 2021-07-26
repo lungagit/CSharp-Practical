@@ -8,12 +8,21 @@ namespace FullStack.Data
 {
     public class FullStackDbContext: DbContext
     {
+        public FullStackDbContext()
+        {
+        }
+
+        public FullStackDbContext(DbContextOptions<FullStackDbContext> options)
+            : base(options)
+        {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source = (localDb)\\MSSQLLocalDb; Initial Catalog = FullStack");
+            optionsBuilder.UseSqlServer("Data Source = (localDb)\\MSSQLLocalDB; Initial Catalog = FullStack");
         }
 
     }

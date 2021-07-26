@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FullStack.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FullStack.API
 {
@@ -34,17 +35,25 @@ namespace FullStack.API
 
             //TODO: Add the DbContext and repositoy
 
-            //services.AddDbContext<FullStackDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddScoped<IFullStackRepository, FullStackRepository>();
-            
+            services.AddDbContext<FullStackDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FullStackConnex"))
+                .EnableSensitiveDataLogging()
+                );
+            services.AddScoped<IFullStackRepository, FullStackRepository>();
+
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text;
 
-namespace FullStack.Data.Entities
+namespace FullStack.ViewModels
 {
-    public class Invoice
+    public class InvoiceModel
     {
-        public Invoice()
-        {
-        }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTimeOffset InvoiceDate { get; set; }
         public string InvoiceReferenceNumber { get; set; }
         public DateTimeOffset InvoiceDueDate { get; set; }
-        public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+        public List<InvoiceItemModel> InvoiceItems { get; set; } = new List<InvoiceItemModel>();
         public decimal TotalInvoiceAmount { get; set; }
-
     }
 }

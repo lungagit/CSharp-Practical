@@ -99,7 +99,7 @@ namespace FullStack.Data
         public Invoice CreateInvoice(Invoice invoice)
         {
             //throw new NotImplementedException();
-            _ctx.Invoices.Add(e);
+            _ctx.Invoices.Add(invoice);
             _ctx.SaveChanges();
             return e;
         }
